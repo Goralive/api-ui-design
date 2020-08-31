@@ -1,0 +1,63 @@
+plugins {
+    id 'java'
+}
+
+group 'automation-api-java'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    restAssuredVersion = '3.3.0'
+    testNGVersion = '6.13'
+    jacksonVersion = '2.9.8'
+    fakerVersion = '1.0.1'
+    logbackVersion = '1.2.3'
+    slf4jVersion = '1.7.29'
+    ownerVersion = '1.0.10'
+}
+
+dependencies {
+    compile "io.rest-assured:rest-assured:$restAssuredVersion"
+    testCompile "org.testng:testng:$testNGVersion"
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+
+    compile "org.slf4j:slf4j-api:$slf4jVersion"
+    compile "ch.qos.logback:logback-classic:$logbackVersion"
+    compile "ch.qos.logback:logback-core:$logbackVersion"
+    compile "org.aeonbits.owner:owner:$ownerVersion"
+    compile "io.qameta.allure:allure-rest-assured:2.12.1" 
+
+
+    compile "com.github.javafaker:javafaker:$fakerVersion"
+}
+
+test {
+    systemProperties System.getProperties()
+    useTestNG() {
+        options {
+            parallel = 'methods'
+            threadCount = 2
+        }
+    }
+
+    testLogging {
+        events "Passed", "Skipped", "Failed"
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+
+
+    test.outputs.upToDateWhen { false }
+}
+
+allure {
+    autoconfigure = true
+    version = '2.5.0'
+    aspectjweaver = 'true'
+    configuration = 'compile'
+}

@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+}
+
+version 'unspecified'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    testNGVersion = '6.13'
+}
+
+dependencies {
+    compile project(":api-test")
+    compile "com.codeborne:selenide:5.14.2"
+    testCompile "org.testng:testng:$testNGVersion"
+}
+
+test {
+    systemProperties System.getProperties()
+    useTestNG() {
+        options {
+            parallel = 'methods'
+            threadCount = 2
+        }
+    }
+
+    testLogging {
+        events "Passed", "Skipped", "Failed"
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+
+
+    test.outputs.upToDateWhen { false }
+}
+
+allure {
+    version = '2.5.0'
+    aspectjweaver = 'true'
+    configuration = 'compile'
+    autoconfigure = true
+
+    useTestNG {
+        version = '2.12.1'
+    }
+}
