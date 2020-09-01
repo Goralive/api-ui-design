@@ -13,5 +13,6 @@ To run on remote ./gradlew clean -DremoteDriverUrl=http://{selenoid.ip}:4444/wd/
 To run Api test ./gradlew clean api:test in project directory
 <br/>
 To run api + ui ./gradlew clean test
+<br/>
 Result you can find in build/reports/tests/test/index.html or generate allure report from allure-result folder
 <br/>
